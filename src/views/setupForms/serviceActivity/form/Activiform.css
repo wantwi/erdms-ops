@@ -1,0 +1,16 @@
+
+
+.searchWrapper{
+    padding: 1.5px !important;
+    height: 33px !important;
+}
+.chip{
+    background-color: gray;
+    color: black !important;
+    box-shadow: none !important;
+}
+
+.closeIcon{
+    border-radius: 20px !important;
+    background-color: black;
+}

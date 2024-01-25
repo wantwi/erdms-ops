@@ -1,0 +1,20 @@
+.badge {
+  display: block;
+
+  font-weight: bold;
+  line-height: 2;
+
+  white-space: nowrap;
+  width: 100px;
+}
+
+.bg-light-success {
+  color: #28c76f !important;
+  background: rgba(40, 199, 111, 0.12) !important;
+ 
+}
+
+.bg-light-danger {
+    color: #ea5455!important;
+    background: rgb(252 234 234)!important;
+}

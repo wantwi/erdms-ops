@@ -1,0 +1,68 @@
+.e-edit {
+  color: #00bcd4 !important;
+}
+.e-delete,
+.e-cancel-icon {
+  color: #ff4081 !important;
+}
+
+.e-columnheader {
+  font-family: "muli-bold" !important;
+}
+.e-tbar-btn {
+  background-color: #4389a2 !important;
+  width: auto !important;
+  height: 28px !important;
+  border-radius: 5px !important;
+  margin-right: 30px !important;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  transition: color 0.15s, background-color 0.15s, border-color 0.15s,
+    box-shadow 0.15s !important;
+  font-weight: 300 !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+}
+.e-tbar-btn-text,
+.e-add {
+  color: #fff !important;
+}
+.e-headertext {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  font-family: "muli-bold" !important;
+}
+.e-update {
+  color: #64dd17 !important;
+  font-weight: bold;
+}
+
+.e-input-group:not(.e-float-icon-left):not(.e-float-input)::before,
+.e-input-group:not(.e-float-icon-left):not(.e-float-input)::after,
+.e-input-group.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::before,
+.e-input-group.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::after,
+.e-input-group.e-control-wrapper:not(.e-float-icon-left):not(.e-float-input)::before,
+.e-input-group.e-control-wrapper:not(.e-float-icon-left):not(.e-float-input)::after,
+.e-input-group.e-control-wrapper.e-float-icon-left:not(.e-float-input)
+  .e-input-in-wrap::before,
+.e-input-group.e-control-wrapper.e-float-icon-left:not(.e-float-input)
+  .e-input-in-wrap::after {
+  background: #fff !important;
+}
+.e-grid .e-gridheader {
+  padding-right: 0 !important;
+  border: Ipx solid !important;
+}
+.e-headercell {
+  background-color: #eff2f7 !important ;
+  height: 44px !important;
+}
+.e-row {
+  border: 1px solid #eff2f7 !important ;
+  height: 40px !important;
+  font-family: inherit !important;
+}
+.e-grid,
+.e-headercontent {
+  border: 1px solid #eff2f7 !important;
+}

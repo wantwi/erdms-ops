@@ -1,0 +1,76 @@
+@import "../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-calendars/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-navigations/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-popups/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-react-grids/styles/material.css";
+
+label {
+  font-weight: bold !important;
+  font-size: 13px !important;
+}
+input,
+select,
+textarea {
+  font-size: 12px !important;
+}
+.doc-title {
+  font-weight: bold !important;
+  font-size: 13px !important;
+}
+
+.c-secoundary {
+  background-color: #f88656 !important;
+}
+
+/* .form-control-sm{
+    font-size: 11px !important;
+} */
+
+.invalid {
+  border-color: red !important;
+}
+.isRequire {
+  color: red;
+}
+
+.e-checkbox-wrapper .e-frame.e-check, .e-css.e-checkbox-wrapper .e-frame.e-check {
+  background-color: #4389a2 !important;
+  border-color: transparent;
+  color: #fff;
+}
+
+.bg-light-purble{
+  color: #7628c7 !important;
+background: rgb(143 23 215 / 12%) !important;
+
+}
+
+.bg-light-green {
+  color: #4389a2 !important;
+  background: rgb(67 137 162 / 33%) !important;
+}
+.bg-light-org{
+  color:#b77204 !important;
+  background:#b7720457 !important;
+
+}
+
+._loading_overlay_overlay{
+  height: 100vh!important;
+  z-index: 2000000; 
+
+}
+.e-grid .e-gridheader .e-headercell .e-headercelldiv.e-headerchkcelldiv {
+  /* padding: 0 1.8em 0 0.6em; */
+  /* background: red; */
+  margin-left: -10px;
+}
+
+.doc-title:hover{
+  cursor: pointer;
+
+}
