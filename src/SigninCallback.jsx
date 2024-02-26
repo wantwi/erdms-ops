@@ -5,75 +5,76 @@ import { connect, useDispatch } from "react-redux";
 import { compose } from "redux";
 import { withRouter } from "react-router-dom";
 import useAuth from "hooks/useAuth";
-import RD from "./assets/gif/rd.gif"
+import RD from "./assets/gif/rd.gif";
 import { userLogout } from "config/config";
 import { setResponse } from "redux/loader/Loader";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 
 const mgr = new Oidc.UserManager({ response_mode: "query" });
 
 const SigninCallback = props => {
- 
-  const { auth, setAuth} = useAuth();
-const dispatch = useDispatch()
+  const { auth, setAuth } = useAuth();
+  const dispatch = useDispatch();
   const curentUser = () => {
-    mgr.signinRedirectCallback().then(response => {
+    mgr
+      .signinRedirectCallback()
+      .then(response => {
+        localStorage.setItem("persist", true);
+        const token = jwt.decode(response?.access_token);
 
-      localStorage.setItem("persist",true)
-      const token = jwt.decode(response?.access_token)
+        if (response) {
+          const { access_token, profile } = response;
+          const { family_name, given_name } = profile;
 
-      if (response) {
-        const {access_token, profile} = response
-        const {family_name,given_name} = profile
+          setTimeout(() => {
+            setAuth({ given_name, family_name, accessToken: access_token });
+          }, 5000);
+        }
 
-        setTimeout(() => {
-          setAuth({ given_name, family_name,  accessToken:access_token })
-        },5000)
-      }
+        // console.log({token})
+        // if(token?.client_id !=="lms-operation-host_client-live"){
+        //   userLogout()
+        // }else{
+        //   if (response) {
+        //     const {access_token, profile} = response
+        //     const {family_name,given_name} = profile
 
-      // console.log({token})
-      // if(token?.client_id !=="lms-operation-host_client-live"){
-      //   userLogout()
-      // }else{
-      //   if (response) {
-      //     const {access_token, profile} = response
-      //     const {family_name,given_name} = profile
-  
-      //     setTimeout(() => {
-      //       setAuth({ given_name, family_name,  accessToken:access_token })
-      //     },5000)
-      //   }
-      // }
-      
-     
-     
-    }).catch(err =>{
-      dispatch(setResponse("Something went wrong", false));
-      dispatch(setResponse("", true));
-      //localStorage.setItem("persist",false)
-      userLogout()
-      
-    });
+        //     setTimeout(() => {
+        //       setAuth({ given_name, family_name,  accessToken:access_token })
+        //     },5000)
+        //   }
+        // }
+      })
+      .catch(err => {
+        dispatch(setResponse("Something went wrong", false));
+        dispatch(setResponse("", true));
+        //localStorage.setItem("persist",false)
+        userLogout();
+      });
   };
 
   useLayoutEffect(() => {
     curentUser();
-  
-    
-  }, [])
+  }, []);
 
-//client_id
-useEffect(() => {
-  // localStorage.setItem("persist", true);
-}, [])
+  //client_id
+  useEffect(() => {
+    // localStorage.setItem("persist", true);
+  }, []);
 
   return (
     <div>
       <h1>Please wait ...</h1>
-      <div style={{display:"flex",justifyContent: "center", alignItems: "center"}}><img src={RD} alt="persol" /></div>
-      {
-            auth?.accessToken ?  <Redirect to="/home" /> :null
-        }
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <img src={RD} alt="persol" />
+      </div>
+      {auth?.accessToken ? <Redirect to="/home" /> : null}
     </div>
   );
 };

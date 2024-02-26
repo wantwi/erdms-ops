@@ -9,7 +9,7 @@ import {
   Toolbar,
   Group,
   Edit,
-  CommandColumn,
+  CommandColumn
 } from "@syncfusion/ej2-react-grids";
 import { useDispatch, useSelector } from "react-redux";
 import { getJob } from "redux/assignactivity/action";
@@ -44,10 +44,10 @@ const statusTemplate = ({ status }) => {
         borderRadius: "5px",
         margin: 0,
         padding: "5px 10px",
-        width: "100px",
+        width: "100px"
       }}
     >
-      {'Completed'}
+      {"Completed"}
     </span>
   ) : (
     <span
@@ -57,10 +57,10 @@ const statusTemplate = ({ status }) => {
         borderRadius: "5px",
         margin: 0,
         padding: "5px 10px",
-        width: "100px",
+        width: "100px"
       }}
     >
-      {'Incomplete'}
+      {"Incomplete"}
     </span>
   );
 };
@@ -77,54 +77,54 @@ const JobRequirementTable = ({
   requriementName,
   setRequriementName,
   addNew,
-  prevMetaData, 
+  prevMetaData,
   setPrevMetaData,
   setAddNew,
   setSelectedRequirementId,
   activityInfo
 }) => {
- 
   const dispatch = useDispatch();
   const customApi = useCustomApi();
 
   const [metata, setMetata] = useState([]);
-  
+
   const modalRef = useRef();
 
-  const rowSelected = (args) => {
-   
+  const rowSelected = args => {
     setRequriementName(args.data);
-    setSelectedRequirementId(args.data.id)
+    setSelectedRequirementId(args.data.id);
 
-    customApi.get(`Job/${args.data.id}/metadata`)
-      .then((result) => {
-      
-
+    customApi
+      .get(`Job/${args.data.id}/metadata`)
+      .then(result => {
+        console.log({ JobDocumentData: result });
+        // console.log({ setMetata: result?.data.metadata });
+        // setMetata(result?.data.metadata);
         setMetata(result.data);
 
         setIsOpen(true);
       })
-      .catch((error) => {
-        console.log({ error });
+      .catch(error => {
+        console.log({ braking: error });
       });
 
-      customApi.get(`Job/JobDocumentData/${args.data.id}/all`)
-      .then((result) => {
-        setPrevMetaData(result.data)
-        console.log({JobDocumentData: result });
+    customApi
+      .get(`Job/JobDocumentData/${args.data.id}/all`)
+      .then(result => {
+        setPrevMetaData(result.data);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log({ error });
       });
   };
 
-  const actionBegin = (args) => {
+  const actionBegin = args => {
     if (args.requestType === "add") {
       args.cancel = true;
       // setShowModal(!showModal);
     }
   };
-console.log({activityInfo});
+  console.log({ activityInfo });
   return (
     <div className="mt-2">
       <GridComponent
@@ -135,7 +135,7 @@ console.log({activityInfo});
           allowEditing: false,
           allowAdding: true,
           allowDeleting: true,
-          newRowPosition: "Top",
+          newRowPosition: "Top"
         }}
         actionBegin={actionBegin}
         dataSource={activityRequirement}

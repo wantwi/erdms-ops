@@ -32,16 +32,28 @@ const topbarTheme = {
     },
     {
       themeName: "light",
-      buttonBackColor: "#B8C6DB",
+      buttonBackColor: "#233e81",
       buttonColor: "linear-gradient(45deg,#F5F7FA,#B8C6DB)",
-      backgroundColor: "linear-gradient(45deg,#F5F7FA,#B8C6DB)",
-      textColor: "rgba(0, 0, 0, .65)",
+      backgroundColor: "#233e81",
+      textColor: "#fff",
       badgeBackColor: "#5C258D",
       badgeTextColor: "#fff",
-      breadCumbActiveColor: "#5C258D",
+      breadCumbActiveColor: "#eca121",
       horSidebarActiveBackColor: "rgba(0,0,0,.05)",
       horSidebarActiveTextColor: "#000"
     },
+    // {
+    //   themeName: "light",
+    //   buttonBackColor: "#B8C6DB",
+    //   buttonColor: "linear-gradient(45deg,#F5F7FA,#B8C6DB)",
+    //   backgroundColor: "linear-gradient(45deg,#F5F7FA,#B8C6DB)",
+    //   textColor: "rgba(0, 0, 0, .65)",
+    //   badgeBackColor: "#5C258D",
+    //   badgeTextColor: "#fff",
+    //   breadCumbActiveColor: "#5C258D",
+    //   horSidebarActiveBackColor: "rgba(0,0,0,.05)",
+    //   horSidebarActiveTextColor: "#000"
+    // },
     {
       themeName: "sky",
       buttonBackColor: "#FFF",
@@ -196,11 +208,11 @@ const sidebarTheme = {
       themeName: "light",
       backgroundColor: "#fff",
       textColor: "rgba(0, 0, 0, .87)",
-      activeRouteTextColor: "rgba(0,0,0,0.85)",
+      activeRouteTextColor: "#fff",
       buttonColor: "linear-gradient(45deg,#F5F7FA,#B8C6DB)",
-      activeRouteBackColor: "linear-gradient(45deg,#F5F7FA,#B8C6DB)",
+      activeRouteBackColor: "#233e81",
       style4VarientActiveTextColor: "#5C258D",
-      sideOpenListBackground: "rgba(0, 0, 0, .035)"
+      sideOpenListBackground: "rgba(0, 0, 0, .035)" // change bg color
     },
     {
       themeName: "gredient1",

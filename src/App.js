@@ -25,9 +25,9 @@ require("dotenv").config();
 
 const currentAppLocale =
   AppLocale[getCurrentLanguage(config.defaultLanguage || "english").locale];
-  // const history = createBrowserHistory({ basename: '/your-base-name' });
-const App = (props) => {
-  console.log({})
+// const history = createBrowserHistory({ basename: '/your-base-name' });
+const App = props => {
+  console.log({});
   return (
     <Fragment>
       {/* <IntlProvider
@@ -42,29 +42,25 @@ const App = (props) => {
               {/*Start layout routes */}
 
               <CustomOverLay>
-         
-                  <Router  history={history}>
-                    <Switch>
-                      <Route
-                        exact
-                        path="/"
-                        render={() => (
-                          <Redirect to="/home" />
-                        )}
-                      />
-                      {layoutRoutes.map((prop, key) => {
-                        return (
-                          <Route
-                            path={prop.path}
-                            component={prop.component}
-                            key={key}
-                            history={history}
-                          />
-                        );
-                      })}
-                    </Switch>
-                  </Router>
-              
+                <Router history={history}>
+                  <Switch>
+                    <Route
+                      exact
+                      path="/"
+                      render={() => <Redirect to="/home" />}
+                    />
+                    {layoutRoutes.map((prop, key) => {
+                      return (
+                        <Route
+                          path={prop.path}
+                          component={prop.component}
+                          key={key}
+                          history={history}
+                        />
+                      );
+                    })}
+                  </Switch>
+                </Router>
               </CustomOverLay>
 
               {/*End layout routes */}
@@ -77,9 +73,7 @@ const App = (props) => {
   );
 };
 
-
 export default App;
-
 
 // If you want to choose different color schema go to settings/index.jsx and set your theme and language.
 
@@ -87,7 +81,7 @@ export default App;
 
 console.log({ LMS: "LMS APP" });
 
-console.log = console.warn = console.error = () => {}
- window.alert = () => {}
+console.log = console.warn = console.error = () => {};
+window.alert = () => {};
 //alert = () => {}
 console.log({ LMS: "LMS APP" });

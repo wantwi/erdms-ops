@@ -7,7 +7,7 @@ import Error400 from "views/pages/error/Error400";
 import Error500 from "views/pages/error/Error500";
 import PricingStyle1 from "views/pages/pricing/PricingStyle1";
 import PricingStyle2 from "views/pages/pricing/PricingStyle2";
-import SigninCallback from "../../SigninCallback";
+import SigninCallback from "views/pages/authentication/SigninCallback";
 
 export {
   LockScreen,

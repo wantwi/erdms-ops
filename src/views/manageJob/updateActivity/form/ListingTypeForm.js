@@ -16,12 +16,12 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
+  ModalFooter
 } from "reactstrap";
 import { dateTemplate } from "util/helper";
 import classnames from "classnames";
 import useAuth from "hooks/useAuth";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 const { REACT_APP_SERVICE_URL } = process.env;
 
 // const sessionData = JSON.parse(sessionStorage.getItem("oidc.user:https://demo.persol-apps.com/lms.auth:lms-job-manager_client"));
@@ -31,7 +31,7 @@ function getBase64(file) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
+    reader.onerror = error => reject(error);
   });
 }
 
@@ -47,29 +47,36 @@ const ListingTypeForm = ({
   activityInfo
   // setIsOpen,
 }) => {
-  const { metadata, jobNumber, documentType } = metata;
+  const { metadata = [], jobNumber, documentType } = metata;
   const [prev, setPrev] = useState(false);
   const [src, setsrc] = useState();
   const [activeTab, setActiveTab] = useState(1);
-  const [loading, setloading] = useState(false)
-  const {auth} = useAuth()
-  const [isCurrentUser, setIsCurrentUser] = useState(false)
-  const [showPreview,setShowPreview] = useState(false)
-  const [base64file, setbase64file] =  useState("")
+  const [loading, setloading] = useState(false);
+  const { auth } = useAuth();
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [base64file, setbase64file] = useState("");
   let init = {};
-  metadata.forEach((x) => {
+
+  metadata.forEach(x => {
     init[`${x.label}`] = "";
   });
   init.file = "";
 
+  console.log({ metata, init });
+
   let schemaOpt = {};
-  metadata.forEach((x) => {
+  metadata.forEach(x => {
     schemaOpt[`${x.label}`] =
       x.inputType.toLowerCase === "date"
         ? Yup.date().required(`${x.placeholder} is required`)
         : x.inputType.toLowerCase === "number"
-        ? x.isRequired ? Yup.number().required(`${x.placeholder} is required`) : Yup.number()
-        : x.isRequired ? Yup.string().required(`${x.placeholder} is required`):  Yup.string();
+        ? x.isRequired
+          ? Yup.number().required(`${x.placeholder} is required`)
+          : Yup.number()
+        : x.isRequired
+        ? Yup.string().required(`${x.placeholder} is required`)
+        : Yup.string();
   });
 
   // schemaOpt.file = Yup.string().required(`Document is required`);
@@ -85,33 +92,33 @@ const ListingTypeForm = ({
     }
   };
 
-  const getDoc = (fileReferenceId) => {
-    setloading(true)
-    fetch(`${REACT_APP_SERVICE_URL}base64/${fileReferenceId}`, {
+  const getDoc = fileReferenceId => {
+    setloading(true);
+    fetch(`${REACT_APP_SERVICE_URL}/base64/${fileReferenceId}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${auth?.accessToken}`,
-      },
+        Authorization: `Bearer ${auth?.accessToken}`
+      }
     })
-      .then((res) => res.json())
-      .then((data) => {
-        setbase64file(data?.base64)
-          console.log({data})
-          setShowPreview(true)
+      .then(res => res.json())
+      .then(data => {
+        setbase64file(data?.base64);
+        console.log({ base64: data });
+        setShowPreview(true);
         // const link = document.createElement("a");
         // link.href = URL.createObjectURL(data);
         // link.download = `_${documentType}.pdf`;
         // link.click();
-         setloading(false)
-      }).catch(err =>{
-        setloading(false)
+        setloading(false);
       })
+      .catch(err => {
+        setloading(false);
+      });
   };
 
   useEffect(() => {}, [metata]);
 
-
-  console.log({ prevMetaData,loading });
+  console.log({ prevMetaData, loading });
 
   const MetaDataForm = () => {
     return (
@@ -129,13 +136,13 @@ const ListingTypeForm = ({
                   borderRadius: 10,
                   height: "auto",
                   background: "#ebebeb",
-                  padding: "10px",
+                  padding: "10px"
                 }}
               >
                 <Row>
                   <Col md={5}>
                     <label>
-                      Attach Document <span ></span>
+                      Attach Document <span></span>
                     </label>
                     <br />
                     <input
@@ -156,7 +163,7 @@ const ListingTypeForm = ({
                       style={{
                         background: "#e1e2e3",
                         padding: "10px 20px",
-                        borderRadius: 10,
+                        borderRadius: 10
                       }}
                     >
                       <label className="mr-1">Job Number : </label>
@@ -173,43 +180,51 @@ const ListingTypeForm = ({
                 </Row>
               </div>
 
-              <div style={{minHeight: 250, maxHeight:500, overflowY:"scroll", padding:"10px 10px 20px 10px"}}>
-              {metadata.map((x, i) => {
-                const { inputType, isRequired, label: lb,placeholder } = x;
+              <div
+                style={{
+                  minHeight: 250,
+                  maxHeight: 500,
+                  overflowY: "scroll",
+                  padding: "10px 10px 20px 10px"
+                }}
+              >
+                {metadata.map((x, i) => {
+                  const { inputType, isRequired, label: lb, placeholder } = x;
 
-                return (
-                  <>
-                    <Row key={i} className="mt-2" form>
-                      <Col md={5}>
-                        <label>
-                          {placeholder}{" "}
-                          {isRequired ? (
-                            <span className="isRequire">*</span>
-                          ) : null}
-                        </label>
-                      </Col>
-                      <Col md={7}>
-                        <Input
-                          name={lb}
-                          type={`${inputType.toLowerCase()}`}
-                          placeholder={placeholder}
-                          onChange={handleChange}
-                          value={values[`${lb}`]}
-                          className={
-                            errors[`${lb}`] && touched[`${lb}`] ? "invalid" : ""
-                          }
-                          style={{resize:'none'}}
-
-                        />
-                        {errors[`${lb}`] && touched[`${lb}`] && (
-                          <div className="text-danger">{errors[`${lb}`]}</div>
-                        )}
-                      </Col>
-                    </Row>
-                  </>
-                );
-              })}
-</div>
+                  return (
+                    <>
+                      <Row key={i} className="mt-2" form>
+                        <Col md={5}>
+                          <label>
+                            {placeholder}{" "}
+                            {isRequired ? (
+                              <span className="isRequire">*</span>
+                            ) : null}
+                          </label>
+                        </Col>
+                        <Col md={7}>
+                          <Input
+                            name={lb}
+                            type={`${inputType.toLowerCase()}`}
+                            placeholder={placeholder}
+                            onChange={handleChange}
+                            value={values[`${lb}`]}
+                            className={
+                              errors[`${lb}`] && touched[`${lb}`]
+                                ? "invalid"
+                                : ""
+                            }
+                            style={{ resize: "none" }}
+                          />
+                          {errors[`${lb}`] && touched[`${lb}`] && (
+                            <div className="text-danger">{errors[`${lb}`]}</div>
+                          )}
+                        </Col>
+                      </Row>
+                    </>
+                  );
+                })}
+              </div>
               <button hidden ref={submitBtn} type="submit">
                 Save
               </button>
@@ -235,132 +250,150 @@ const ListingTypeForm = ({
             </Button>
           </ModalFooter>
         </Modal>
-
       </>
     );
   };
 
-  const toggle = (tab) => {
+  const toggle = tab => {
     if (activeTab !== tab) {
       setActiveTab(tab);
     }
   };
 
-  const FormDetails = (prop) =>{
-
+  const FormDetails = prop => {
+    console.log({ FormDetails: prop });
 
     const {
       documentType,
       fileReferenceId,
       id,
       jobActivityName,
-      metadata,
+      metadata
     } = prop.prop;
 
-  
-    return(
+    const mataObkeys = Object.keys(metadata).map(x => ({
+      inputType: "text",
+      isRequired: false,
+      label: x,
+      value: metadata[x]
+    }));
+
+    console.log({ mataObkeys });
+
+    return (
       <Card>
-      <CardBody>
-        <div
-          style={{
-            borderRadius: 10,
-            height: "auto",
-            background: "#ebebeb",
-            padding: "10px",
-          }}
-        >
-          <Row>
-            <Col md={5}>
-              <label>
-                Attach Document
-              </label>
-              <br />
+        <CardBody>
+          <div
+            style={{
+              borderRadius: 10,
+              height: "auto",
+              background: "#ebebeb",
+              padding: "10px"
+            }}
+          >
+            <Row>
+              <Col md={5}>
+                <label>Attach Document</label>
+                <br />
 
-             {fileReferenceId === '00000000-0000-0000-0000-000000000000'? <Badge color="primary" style={{width:'max-content'}}>No Document Attached</Badge> : <Button
-                disabled={documentType === "No Document" ? true : false}
-                type="button"
-                onClick={() => getDoc(fileReferenceId)}
-                className="c-info mt-2"
-                style={{ width: "100%" }}
-              >
-                Preview
-              </Button>}
-            </Col>
-            <Col md={7}>
-              <div
-                style={{
-                  background: "#e1e2e3",
-                  padding: "10px 20px",
-                  borderRadius: 10,
-                }}
-              >
-                <label className="mr-1">Job Number : </label>
-                <span>{jobNumber}</span>
-                <br />
-                <label className="mr-1">Requirement : </label>
-                <span>{jobActivityName}</span>
-                <br />
-                <label className="mr-1">Document Type :</label>
-                <span>{documentType}</span>
-                <br />
-              </div>
-            </Col>
-          </Row>
-        </div>
-        <div style={{minHeight: 250, maxHeight:500, overflowY:"scroll", padding:"10px 10px 20px 10px"}}>
-        {metadata.map((x, i) => {
-          const { inputType, isRequired, label: lb } = x;
-          
-          return (
-            <>
-              <Row key={i} className="mt-2" form>
-                <Col md={5}>
-                  <label>
-                    {lb}{" "}
-                    {isRequired ? (
-                      <span className="isRequire">*</span>
-                    ) : null}
-                  </label>
-                </Col>
-                <Col md={7}>
-                  {inputType === "Date" ? (
-                    <div style={style}>{dateTemplate(x.value)}</div>
-                  ) : (
-                    <Input
-                      disabled
-                      name={lb}
-                      type={
-                        inputType === "Date" ? "text" : `${inputType}`
-                      }
-                      placeholder="Enter data"
-                      value={x.value}
-                    />
-                  )}
-                </Col>
-              </Row>
-            </>
-          );
-        })}
-        </div>
-      </CardBody>
-    </Card>
-    )
+                {fileReferenceId === "00000000-0000-0000-0000-000000000000" ? (
+                  <Badge color="primary" style={{ width: "max-content" }}>
+                    No Document Attached
+                  </Badge>
+                ) : (
+                  <Button
+                    disabled={documentType === "No Document" ? true : false}
+                    type="button"
+                    onClick={() => getDoc(fileReferenceId)}
+                    className="c-info mt-2"
+                    style={{ width: "100%" }}
+                  >
+                    Preview
+                  </Button>
+                )}
+              </Col>
+              <Col md={7}>
+                <div
+                  style={{
+                    background: "#e1e2e3",
+                    padding: "10px 20px",
+                    borderRadius: 10
+                  }}
+                >
+                  <label className="mr-1">Job Number : </label>
+                  <span>{jobNumber}</span>
+                  <br />
+                  <label className="mr-1">Requirement : </label>
+                  <span>{jobActivityName}</span>
+                  <br />
+                  <label className="mr-1">Document Type :</label>
+                  <span>{documentType}</span>
+                  <br />
+                </div>
+              </Col>
+            </Row>
+          </div>
+          <div
+            style={{
+              minHeight: 250,
+              maxHeight: 500,
+              overflowY: "scroll",
+              padding: "10px 10px 20px 10px"
+            }}
+          >
+            {mataObkeys?.map((x, i) => {
+              const { inputType = "text", isRequired = false, label: lb } = x;
 
-  }
+              return (
+                <>
+                  <Row key={i} className="mt-2" form>
+                    <Col md={5}>
+                      <label>
+                        {lb}{" "}
+                        {isRequired ? (
+                          <span className="isRequire">*</span>
+                        ) : null}
+                      </label>
+                    </Col>
+                    <Col md={7}>
+                      {inputType === "Date" ? (
+                        <div style={style}>{dateTemplate(x.value)}</div>
+                      ) : (
+                        <Input
+                          disabled
+                          name={lb}
+                          type={inputType === "Date" ? "text" : `${inputType}`}
+                          placeholder="Enter data"
+                          value={x.value}
+                        />
+                      )}
+                    </Col>
+                  </Row>
+                </>
+              );
+            })}
+          </div>
+        </CardBody>
+      </Card>
+    );
+  };
 
   const TabView = () => {
     return (
       <>
         <Nav tabs>
           {prevMetaData.map((x, i) => (
-            <NavItem key={`Nav_${i}`}>
+            <NavItem key={`Nav_${i}`} hidden>
               <NavLink
-              style={{background: activeTab === i + 1?"#bcc9dd" :"#fff", color: "black"}}
+                style={{
+                  background: activeTab === i + 1 ? "#bcc9dd" : "#fff",
+                  color: "black"
+                }}
                 className={classnames(
                   { active: activeTab === i + 1 },
                   "doc-title"
                 )}
-                onClick={() => toggle( i + 1)}
+                onClick={() => toggle(i + 1)}
               >
                 Document {i + 1}
               </NavLink>
@@ -368,53 +401,57 @@ const ListingTypeForm = ({
           ))}
         </Nav>
         <TabContent activeTab={activeTab}>
-        {
-          prevMetaData.map((x,i) =><TabPane tabId={i+1}> <FormDetails prop = {x}/>  </TabPane>)
-        }
+          {prevMetaData.map((x, i) => (
+            <TabPane tabId={i + 1}>
+              {" "}
+              <FormDetails prop={x} />{" "}
+            </TabPane>
+          ))}
         </TabContent>
       </>
     );
   };
 
   useEffect(() => {
+    if (activityInfo?.officer) {
+      const assignedPersonId = activityInfo?.officer?.id;
+      const { sub } = jwt.decode(auth?.accessToken);
 
-    if(activityInfo?.officer){
-      const assignedPersonId = activityInfo?.officer?.id
-    const {sub} = jwt.decode(auth?.accessToken)
+      console.log({ sub, assignedPersonId, activityInfo });
 
-    
- console.log({sub,assignedPersonId,activityInfo})
+      if (assignedPersonId.toLowerCase() === sub.toLowerCase()) {
+        setIsCurrentUser(true);
+      } else {
+        setIsCurrentUser(false);
+      }
 
-    if(assignedPersonId.toLowerCase() === sub.toLowerCase()){
-      setIsCurrentUser(true)
-    }else{
-      setIsCurrentUser(false)
+      console.log({ useEffect: activityInfo });
     }
-    
-    console.log({useEffect: activityInfo})
 
-    }
-    
     return () => {
-      setIsCurrentUser(false)
-    }
-  }, [activityInfo])
-  
+      setIsCurrentUser(false);
+    };
+  }, [activityInfo]);
 
- console.log({isCurrentUser})
+  console.log({ isCurrentUser });
 
   return (
     <>
-      <Row hidden={addNew ? true : false}>
-        <Col md={8} xs={12}>Job Number: <span style={{fontWeight:"bold"}}>{jobNumber}</span></Col>
+      {/* <Row hidden={addNew ? true : false}> */}
+      <Row hidden>
+        <Col md={8} xs={12}>
+          Job Number: <span style={{ fontWeight: "bold" }}>{jobNumber}</span>
+        </Col>
         <Col md={4} xs={12}>
-         {isCurrentUser? <Button
-            style={{ float: "right" }}
-            className="c-success"
-            onClick={() => setAddNew(true)}
-          >
-            Add New Document
-          </Button>: null}
+          {isCurrentUser ? (
+            <Button
+              style={{ float: "right" }}
+              className="c-success"
+              onClick={() => setAddNew(true)}
+            >
+              Add New Document
+            </Button>
+          ) : null}
         </Col>
       </Row>
 
@@ -431,20 +468,24 @@ const ListingTypeForm = ({
       {addNew ? <MetaDataForm /> : null}
 
       <Modal isOpen={showPreview} size="lg">
-          <ModalHeader>
-            <span className="mb-3" style={{ fontWeight: 900 }}>
-              Preview Document
-            </span>
-          </ModalHeader>
-          <ModalBody>
-           <embed src={`data:application/pdf;base64,${base64file}`} width={'100%'} height={450}></embed>
-          </ModalBody>
-          <ModalFooter>
-            <Button className="c-secondary" onClick={() => setShowPreview(false)}>
-              Close
-            </Button>
-          </ModalFooter>
-        </Modal>
+        <ModalHeader>
+          <span className="mb-3" style={{ fontWeight: 900 }}>
+            Preview Document
+          </span>
+        </ModalHeader>
+        <ModalBody>
+          <embed
+            src={`data:application/pdf;base64,${base64file}`}
+            width={"100%"}
+            height={450}
+          ></embed>
+        </ModalBody>
+        <ModalFooter>
+          <Button className="c-secondary" onClick={() => setShowPreview(false)}>
+            Close
+          </Button>
+        </ModalFooter>
+      </Modal>
     </>
   );
 };
@@ -457,5 +498,5 @@ const style = {
   borderRadius: "5px",
   background: "#e9ecef",
   border: "1px solid #d1d2d3",
-  color: "#495057",
+  color: "#495057"
 };
